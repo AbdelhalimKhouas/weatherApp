@@ -15,6 +15,7 @@ class App extends Component {
     .then(response => response.json())
     .then(data => {
       console.log(data) // Prints result from `response.json()` in getRequest
+      this.props.storeData(data.list)
     })
     .catch(error => console.error(error))
   }
@@ -29,8 +30,14 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return{
+  return {
     data: state.data
   }
 }
-export default connect(mapStateToProps)(App)
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    storeData: (data) => { dispatch({type:'STORE_DATA', data: data}) }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)

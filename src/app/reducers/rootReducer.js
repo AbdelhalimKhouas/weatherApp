@@ -1,10 +1,15 @@
 const initState = {
-    data: [
-        {'test': 'dfdfdf', 'id':1}
-    ],
+    data: [],
 }
 
 const rootReducer = (state = initState, action) => {
+    //console.log(action)
+    if(action.type === 'STORE_DATA'){
+        return {
+            ...state,
+            data: action.data
+          };
+    }
     return state
 }
 
