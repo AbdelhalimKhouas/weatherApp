@@ -1,0 +1,22 @@
+.card {
+ margin: 30px
+}
+.sliderContainer button {
+    /* flex: 1; */
+    background: transparent;
+    border: none;
+    width: 10%;
+}
+.sliderContainer {
+    display: flex;
+    justify-content: center;
+}
+.sliderContainer button svg {
+    font-size: 50px;
+}
+.backBtn:disabled, .nextBtn:disabled {
+    display: none;
+}
+.cardContainer li {
+    padding-bottom: 10% !important;
+}

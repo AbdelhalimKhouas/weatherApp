@@ -2,42 +2,53 @@ import React,{Component} from 'react';
 import logo from './../logo.svg';
 import apiUrl from './config';
 import './App.css';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+
+import WeatherScreen from './containers/weatherScreen';
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount(){
     this.fetchData();
-    console.log(this.props.data)
   }
 
   fetchData = () => {
-    fetch(apiUrl)
+    fetch(apiUrl+'&units='+this.props.unit)
     .then(response => response.json())
     .then(data => {
-      console.log(data) // Prints result from `response.json()` in getRequest
+      this.props.isLoading(false)
       this.props.storeData(data.list)
     })
     .catch(error => console.error(error))
   }
 
   render(){
-  return (
-    <div className="App">
-      
-    </div>
-  );
+    console.log(this.props.unit)
+    if(this.props.loading == true){
+      return(
+        <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      )
+    }
+    else{
+      return (
+        <div className='app'>
+            <WeatherScreen/>
+        </div>
+      );
+    }
 }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    data: state.data
+const mapStatToProps = (state) => {
+  return{
+      data: state.data,
+      loading: state.loading
   }
 }
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    storeData: (data) => { dispatch({type:'STORE_DATA', data: data}) }
+      storeUnit: (unit) => { dispatch({type:'STORE_UNIT', unit: unit}) },
+      storeData: (data) => { dispatch({type:'STORE_DATA', data: data}) },
+      isLoading: (loading) => { dispatch({type:'IS_LOADIGN', loading:loading})}
+
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStatToProps, mapDispatchToProps)(App)
